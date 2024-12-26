@@ -19,15 +19,23 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
+    // Add basic geometry (cube)
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+
+    // Load .obj model
     const loader = new THREE.OBJLoader();
     loader.load(
-      'https://raw.githubusercontent.com/iam-debug/blackbird-sr71-model/main/black%20bird%20sr71_obj.obj',
+      'https://raw.githubusercontent.com/your-username/blackbird-sr71-model/main/black%20bird%20sr71_obj.obj',
       function (object) {
+        console.log('Model loaded');
         scene.add(object);
       },
       undefined,
       function (error) {
-        console.error(error);
+        console.error('An error occurred', error);
       }
     );
 
@@ -35,6 +43,8 @@
 
     function animate() {
       requestAnimationFrame(animate);
+      cube.rotation.x += 0.01;
+      cube.rotation.y += 0.01;
       renderer.render(scene, camera);
     }
 
